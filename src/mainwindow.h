@@ -24,6 +24,10 @@ private slots:
     void redClicked ();
     void blueClicked ();
     void randomClicked ();
+    void noWind ();
+    void leftWind ();
+    void rightWind ();
+    void sliderMoved ( int value );
     void UpdateUI ();
 
 private:
@@ -34,8 +38,12 @@ private:
     Color *colorInfo;
    
     int colorSelected;
+    int intensitySelected;
+    int intensityRange;
     int intensityValues[WIDTH][HEIGHT];
     std::map<int, int> intensityToColor;
+
+    int windDirection;
 
     void InitUI ();
     void InitIntensity ();

@@ -3,6 +3,7 @@
 #include "../build/ui_mainwindow.h"
 #include <QTimer>
 
+enum WIND_DIRECTION { NO_WIND, LEFT, RIGHT };
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -16,11 +17,15 @@ MainWindow::MainWindow(QWidget *parent) :
 
     colorSelected = COLOR_THEME::RED;
 
+    intensitySelected = GRAD_TO_INTENSITY;
+    intensityRange = INTENSITY_RANGE;
+
+    windDirection = WIND_DIRECTION::NO_WIND;
+
     InitIntensity ();
     
     StartTimer ();
 }
-
 
 void MainWindow::InitUI ()
 {
@@ -31,26 +36,24 @@ void MainWindow::InitUI ()
     image = QImage ( WIDTH, HEIGHT, QImage::Format_RGB32 );
 }
 
-
 void MainWindow::InitIntensity ()
 {
-    for ( int i = 0; i < INTENSITY_RANGE; i++ )
+    for ( int i = 0; i < intensityRange; i++ )
     {
         if ( colorSelected == COLOR_THEME::RANDOM )
         {
-            intensityToColor[i] = colorInfo->GetRandomColor ( i / GRAD_TO_INTENSITY );
+            intensityToColor[i] = colorInfo->GetRandomColor ( i / intensitySelected );
         }
         else if ( colorSelected == COLOR_THEME::BLUE )
         {
-            intensityToColor[i] = colorInfo->GetBlueColor ( i / GRAD_TO_INTENSITY );
+            intensityToColor[i] = colorInfo->GetBlueColor ( i / intensitySelected );
         }
         else
         {
-            intensityToColor[i] = colorInfo->GetRedColor ( i / GRAD_TO_INTENSITY );
+            intensityToColor[i] = colorInfo->GetRedColor ( i / intensitySelected );
         }
     }
 }
-
 
 void MainWindow::StartTimer ()
 {
@@ -61,7 +64,6 @@ void MainWindow::StartTimer ()
     timer->start ();
 }
 
-
 void MainWindow::UpdateUI ()
 {
     // Initialize last row intensity values. Later used to calculate rest of the intensity valyes.
@@ -71,7 +73,7 @@ void MainWindow::UpdateUI ()
         {
             if ( col == ( HEIGHT - 1 ) ) // Last row intensity values are hardcoded.
             {
-                intensityValues[row][col] = ( std::rand () % INTENSITY_RANGE );
+                intensityValues[row][col] = ( std::rand () % intensityRange );
             }
         }
     }
@@ -93,7 +95,6 @@ void MainWindow::UpdateUI ()
 
     graphicsScene->addPixmap (  QPixmap::fromImage (image ));
 }
-
 
 int MainWindow::GetIntensity (int i, int j)
 {
@@ -145,6 +146,30 @@ void MainWindow::randomClicked ()
     InitIntensity ();
 }
 
+void MainWindow::sliderMoved ( int value )
+{
+    intensitySelected = value;
+
+    intensityRange = intensitySelected * GRADIENT_RANGE;
+
+    InitIntensity ();
+}
+
+void MainWindow::noWind ()
+{
+    windDirection = WIND_DIRECTION::NO_WIND;
+}
+
+void MainWindow::leftWind ()
+{
+    windDirection = WIND_DIRECTION::LEFT;
+}
+
+void MainWindow::rightWind ()
+{
+    windDirection = WIND_DIRECTION::RIGHT;
+}
+
 MainWindow::~MainWindow()
 {
     delete graphicsScene;
@@ -153,4 +178,3 @@ MainWindow::~MainWindow()
 
     delete colorInfo;
 }
-
