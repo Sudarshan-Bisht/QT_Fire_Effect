@@ -128,7 +128,7 @@
    <widget class="QLabel" name="label_3">
     <property name="geometry">
      <rect>
-      <x>320</x>
+      <x>310</x>
       <y>370</y>
       <width>181</width>
       <height>21</height>
@@ -144,7 +144,7 @@
    <widget class="QPushButton" name="pushButton_4">
     <property name="geometry">
      <rect>
-      <x>350</x>
+      <x>340</x>
       <y>530</y>
       <width>121</width>
       <height>41</height>
@@ -157,7 +157,7 @@
    <widget class="QPushButton" name="pushButton_5">
     <property name="geometry">
      <rect>
-      <x>350</x>
+      <x>340</x>
       <y>470</y>
       <width>121</width>
       <height>41</height>
@@ -170,7 +170,7 @@
    <widget class="QPushButton" name="pushButton_6">
     <property name="geometry">
      <rect>
-      <x>350</x>
+      <x>340</x>
       <y>410</y>
       <width>121</width>
       <height>41</height>
@@ -178,6 +178,61 @@
     </property>
     <property name="text">
      <string>N/A</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_7">
+    <property name="geometry">
+     <rect>
+      <x>610</x>
+      <y>410</y>
+      <width>121</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>N/A</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_4">
+    <property name="geometry">
+     <rect>
+      <x>580</x>
+      <y>370</y>
+      <width>181</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>OpenCV</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_8">
+    <property name="geometry">
+     <rect>
+      <x>610</x>
+      <y>530</y>
+      <width>121</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Effect2</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_9">
+    <property name="geometry">
+     <rect>
+      <x>610</x>
+      <y>470</y>
+      <width>121</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Effect1</string>
     </property>
    </widget>
   </widget>
@@ -288,12 +343,60 @@
    <slot>rightWind()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>464</x>
+     <x>454</x>
      <y>549</y>
     </hint>
     <hint type="destinationlabel">
      <x>544</x>
      <y>543</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_9</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>openCVEffect1()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>721</x>
+     <y>485</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>756</x>
+     <y>475</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_8</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>openCVEffect2()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>693</x>
+     <y>545</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>749</x>
+     <y>543</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_7</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>openCVNoEffect()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>678</x>
+     <y>414</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>774</x>
+     <y>410</y>
     </hint>
    </hints>
   </connection>
@@ -307,5 +410,8 @@
   <slot>leftWind()</slot>
   <slot>noWind()</slot>
   <slot>rightWind()</slot>
+  <slot>openCVEffect1()</slot>
+  <slot>openCVEffect2()</slot>
+  <slot>openCVNoEffect()</slot>
  </slots>
 </ui>

@@ -28,6 +28,9 @@ private slots:
     void leftWind ();
     void rightWind ();
     void sliderMoved ( int value );
+    void openCVNoEffect ();
+    void openCVEffect1 ();
+    void openCVEffect2 ();
     void UpdateUI ();
 
 private:

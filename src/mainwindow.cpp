@@ -2,6 +2,10 @@
 #include "color.h"
 #include "../build/ui_mainwindow.h"
 #include <QTimer>
+#include <opencv2/core/core.hpp>
+#include <opencv2/highgui/highgui.hpp>
+#include <iostream>
+
 
 enum WIND_DIRECTION { NO_WIND, LEFT, RIGHT };
 
@@ -191,6 +195,31 @@ void MainWindow::sliderMoved ( int value )
     intensityRange = intensitySelected * GRADIENT_RANGE;
 
     InitIntensity ();
+}
+
+void MainWindow::openCVNoEffect ()
+{
+
+}
+
+
+void MainWindow::openCVEffect1 ()
+{
+    cv::Mat image;
+    image = cv::imread ( "test.jpeg", CV_LOAD_IMAGE_COLOR );   // Read the file
+
+    if ( image.data != nullptr)
+    {
+        cv::namedWindow ( "Display window", cv::WINDOW_AUTOSIZE );// Create a window for display.
+        imshow ( "Display window", image );                   // Show our image inside it.
+
+        cv::waitKey ( 0 );
+    }
+}
+
+void MainWindow::openCVEffect2 ()
+{
+
 }
 
 void MainWindow::noWind ()
