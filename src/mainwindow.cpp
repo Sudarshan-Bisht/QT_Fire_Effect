@@ -66,24 +66,14 @@ void MainWindow::StartTimer ()
 
 void MainWindow::UpdateUI ()
 {
-    // Initialize last row intensity values. Later used to calculate rest of the intensity valyes.
-    for ( int row = WIDTH - 1; row >= 0; --row )
-    {
-        for ( int col = HEIGHT - 1; col >= 0; --col )
-        {
-            if ( col == ( HEIGHT - 1 ) ) // Last row intensity values are hardcoded.
-            {
-                intensityValues[row][col] = ( std::rand () % intensityRange );
-            }
-        }
-    }
+    SetBaseIntensityValues ();
 
     // Set pixel value
     for ( int row = WIDTH - 1;  row >= 0; --row )
     {
         for ( int col = HEIGHT - 1; col >= 0; --col )
         {
-            int intensity = GetIntensity ( row, col );
+            int intensity = GetIntensityValue ( row, col );
 
             int r = ( intensityToColor[intensity] >> 16 ) & ( 0x0000FF );
             int g = ( intensityToColor[intensity] >> 8 ) & ( 0x000000FF );
@@ -96,7 +86,55 @@ void MainWindow::UpdateUI ()
     graphicsScene->addPixmap (  QPixmap::fromImage (image ));
 }
 
-int MainWindow::GetIntensity (int i, int j)
+void MainWindow::SetBaseIntensityValues ()
+{
+    // Initialize last row intensity values. Later used to calculate rest of the intensity valyes.
+    for ( int row = WIDTH - 1; row >= 0; --row )
+    {
+        for ( int col = HEIGHT - 1; col >= 0; --col )
+        {
+            if ( col == ( HEIGHT - 1 ) ) // Last row intensity values are hardcoded.
+            {
+                if ( windDirection == WIND_DIRECTION::LEFT )
+                {
+                    if ( row < WIDTH / 3 )
+                    {
+                        intensityValues[row][col] = ( std::rand () % ( intensityRange/2 ) );
+                    }
+                    else if ( ( row >= WIDTH / 3) && ( row <= ( WIDTH * 2 ) / 3 ))
+                    {
+                        intensityValues[row][col] = ( std::rand () % (intensityRange * 2 /3) );
+                    }
+                    else
+                    {
+                        intensityValues[row][col] = ( std::rand () % intensityRange );
+                    }
+                }
+                else if ( windDirection == WIND_DIRECTION::RIGHT )
+                {
+                    if ( row < WIDTH / 3 )
+                    {
+                        intensityValues[row][col] = ( std::rand () % ( intensityRange ) );
+                    }
+                    else if ( ( row >= WIDTH / 3 ) && ( row <= ( WIDTH * 2 ) / 3 ) )
+                    {
+                        intensityValues[row][col] = ( std::rand () % ( intensityRange * 2 / 3 ) );
+                    }
+                    else
+                    {
+                        intensityValues[row][col] = ( std::rand () % ( intensityRange / 2 ) );
+                    }
+                }
+                else
+                {
+                    intensityValues[row][col] = ( std::rand () % intensityRange );
+                }
+            }
+        }
+    }
+}
+
+int MainWindow::GetIntensityValue (int i, int j)
 {
     int retval = 0;
 
@@ -108,15 +146,15 @@ int MainWindow::GetIntensity (int i, int j)
     {
         if ( i == ( WIDTH - 1 ) )
         {
-            retval = ( ( intensityValues[i][j+1] + intensityValues[i -1][j+1] ) / 3 ) - 1;
+            retval = ( ( intensityValues[i][j + 1] + intensityValues[i - 1][j + 1] ) / 3 ) - 1;
         }
         else if ( i == 0 )
         {
-            retval = ( ( intensityValues[i][j+1] + intensityValues[i + 1][j + 1] ) / 3 ) - 1;
+            retval = ( ( intensityValues[i][j + 1] + intensityValues[i + 1][j + 1] ) / 3 ) - 1;
         }
         else
         {
-            retval = ( ( intensityValues[i][j+1] + intensityValues[i + 1][j + 1] + intensityValues[i - 1][j + 1] ) / 3 ) - 1;
+            retval = ( ( intensityValues[i][j + 1] + intensityValues[i + 1][j + 1] + intensityValues[i - 1][j + 1] ) / 3 ) - 1;
         }
     }
 

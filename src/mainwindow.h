@@ -48,7 +48,8 @@ private:
     void InitUI ();
     void InitIntensity ();
     void StartTimer ();
-    int GetIntensity ( int row, int col );
+    void SetBaseIntensityValues ();
+    int GetIntensityValue ( int row, int col );
  };
 
 #endif // MAINWINDOW_H
