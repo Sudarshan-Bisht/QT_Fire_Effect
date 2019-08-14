@@ -143,7 +143,7 @@ public:
 
     void retranslateUi(QMainWindow *MainWindow)
     {
-        MainWindow->setWindowTitle(QString());
+        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "Fire App", nullptr));
         pushButton->setText(QApplication::translate("MainWindow", "Red", nullptr));
         pushButton_2->setText(QApplication::translate("MainWindow", "Blue", nullptr));
         pushButton_3->setText(QApplication::translate("MainWindow", "Random", nullptr));
