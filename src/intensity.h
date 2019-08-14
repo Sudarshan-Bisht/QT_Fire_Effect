@@ -8,7 +8,6 @@ enum WIND_DIRECTION { NO_WIND, LEFT, RIGHT };
 
 class Intensity
 {
-
 public:
     Intensity ( int colorSelected, int intensitySelected, int  intensityRange, int windDirection );
     ~Intensity ();

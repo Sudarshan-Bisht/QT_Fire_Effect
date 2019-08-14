@@ -38,7 +38,6 @@ private:
     QImage image;
 
     Intensity *intensityInfo;
-    
     OpenCV *openCV;
 
     int colorSelected;

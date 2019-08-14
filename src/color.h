@@ -1,7 +1,6 @@
 #ifndef COLOR_H
 #define COLOR_H
 
-
 #include<vector>
 
 constexpr int GRADIENT_RANGE = 27;
@@ -17,7 +16,6 @@ enum COLOR_THEME { RED, BLUE, RANDOM };
 
 class Color 
 {
-
 public:
     Color();
     ~Color();

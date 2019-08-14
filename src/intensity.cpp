@@ -135,11 +135,13 @@ void Intensity::UpdateIntensity ( int intensitySelected, int intensityRange )
 {
     m_intensitySelected = intensitySelected;
     m_intensityRange = intensityRange;
+    InitIntensity ();
 }
 
 void Intensity::UpdateWindDirection ( int windDirection )
 {
     m_windDirection = windDirection;
+    InitIntensity ();
 }
 
 Intensity::~Intensity ()
