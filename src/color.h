@@ -10,10 +10,10 @@ constexpr int INTENSITY_RANGE = GRAD_TO_INTENSITY * GRADIENT_RANGE;
 
 constexpr int COLOR_FACTOR = ( 0x00FFFFFF / ( INTENSITY_RANGE - 1 ) );
 
-enum COLOR_THEME { RED, BLUE, RANDOM };
-
-constexpr int WIDTH = 600;
+constexpr int WIDTH = 700;
 constexpr int HEIGHT = 200;
+
+enum COLOR_THEME { RED, BLUE, RANDOM };
 
 class Color 
 {

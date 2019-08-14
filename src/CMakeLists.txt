@@ -2,7 +2,6 @@ cmake_minimum_required(VERSION 3.15.2)
 
 project(Fire_Demo)
 
-
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 find_package(Qt5 REQUIRED COMPONENTS Core Widgets Gui)
@@ -18,10 +17,6 @@ include_directories(${OpenCV_INCLUDE_DIRS})
 set (CMAKE_PREFIX_PATH "C:\\Qt\\5.12.4\\msvc2017_64\\lib\\cmake\\Qt5")
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
-
-#if(WIN32)
-#  set(CMAKE_WIN32_EXECUTABLE ON)
-#endif()
 
 set(project_ui
 	mainwindow.ui)

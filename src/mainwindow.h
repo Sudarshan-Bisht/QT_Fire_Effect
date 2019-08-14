@@ -28,8 +28,8 @@ private slots:
     void rightWind ();
     void sliderMoved ( int value );
     void openCVNoEffect ();
-    void openCVEffect1 ();
-    void openCVEffect2 ();
+    void openCVGrayscale ();
+    void openCVFlip ();
     void UpdateView ();
 
 private:
@@ -45,6 +45,7 @@ private:
     int intensitySelected;
     int intensityRange;
     int windDirection;
+    int openCVEffect;
 
     void InitView ();
     void StartTimer ();

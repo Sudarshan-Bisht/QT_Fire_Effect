@@ -18,6 +18,7 @@ MainWindow::MainWindow(QWidget *parent) :
     intensitySelected = GRAD_TO_INTENSITY;
     intensityRange = INTENSITY_RANGE;
     windDirection = WIND_DIRECTION::NO_WIND;
+    openCVEffect = OPENEV_EFFECT::NO_EFFECT;
 
     intensityInfo = new Intensity ( colorSelected, intensitySelected, intensityRange, windDirection );
     
@@ -29,11 +30,8 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow ()
 {
     delete ui;
-
     delete graphicsScene;
-
     delete intensityInfo;
-
     delete openCV;
 }
 
@@ -43,10 +41,8 @@ MainWindow::~MainWindow ()
 void MainWindow::InitView ()
 {
     graphicsScene = new QGraphicsScene ( this );
-
     ui->graphicsView->setScene ( graphicsScene );
-
-    image = QImage ( WIDTH, HEIGHT, QImage::Format_RGB32 );
+    image = QImage ( WIDTH, HEIGHT, QImage::Format_ARGB32 );
 }
 
 void MainWindow::UpdateView ()
@@ -68,6 +64,8 @@ void MainWindow::UpdateView ()
         }
     }
 
+    openCV->CheckEffect ( image );
+
     graphicsScene->addPixmap ( QPixmap::fromImage ( image ) );
 }
 
@@ -77,9 +75,7 @@ void MainWindow::UpdateView ()
 void MainWindow::StartTimer ()
 {
     QTimer *timer = new QTimer ( this );
-
     connect ( timer, SIGNAL ( timeout () ), this, SLOT ( UpdateView () ) );
-
     timer->start ();
 }
 
@@ -89,37 +85,31 @@ void MainWindow::StartTimer ()
 void MainWindow::redClicked ()
 {
     colorSelected = COLOR_THEME::RED;
-
     intensityInfo->UpdateColor ( colorSelected );
 }
 
 void MainWindow::blueClicked ()
 {
     colorSelected = COLOR_THEME::BLUE;
-
     intensityInfo->UpdateColor ( colorSelected );
 }
 
 void MainWindow::randomClicked ()
 {
     colorSelected = COLOR_THEME::RANDOM;
-
     intensityInfo->UpdateColor ( colorSelected );
 }
 
 void MainWindow::sliderMoved ( int value )
 {
     intensitySelected = value;
-
     intensityRange = intensitySelected * GRADIENT_RANGE;
-
     intensityInfo->UpdateIntensity ( intensitySelected, intensityRange );
 }
 
 void MainWindow::noWind ()
 {
     windDirection = WIND_DIRECTION::NO_WIND;
-
     intensityInfo->UpdateWindDirection ( windDirection );
 }
 
@@ -137,15 +127,20 @@ void MainWindow::rightWind ()
 
 void MainWindow::openCVNoEffect ()
 {
+    openCVEffect = OPENEV_EFFECT::NO_EFFECT;
+    openCV->UpdateEffect ( openCVEffect );
 }
 
-void MainWindow::openCVEffect1 ()
+void MainWindow::openCVGrayscale ()
 {
-    openCV->Effect1 ();
+    openCVEffect = OPENEV_EFFECT::GRAYSCALE;
+    openCV->UpdateEffect ( openCVEffect );
 }
 
-void MainWindow::openCVEffect2 ()
+void MainWindow::openCVFlip ()
 {
+    openCVEffect = OPENEV_EFFECT::FLIP;
+    openCV->UpdateEffect ( openCVEffect );
 }
 
 #pragma endregion
