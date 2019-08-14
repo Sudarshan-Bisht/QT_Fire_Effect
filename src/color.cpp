@@ -1,4 +1,4 @@
-#include "Color.h"
+#include "color.h"
 
 Color::Color()
 {
@@ -9,7 +9,6 @@ Color::Color()
 
 void Color::InitRedColor ()
 {
-    // Red Color Gradients
     redColor.push_back ( 0x00000000 );
     redColor.push_back ( 0x00120000 );
     redColor.push_back ( 0x003A0002 );
@@ -41,7 +40,6 @@ void Color::InitRedColor ()
 
 void Color::InitBlueColor ()
 {
-    // Blue Color Gradients
     blueColor.push_back ( 0x00000112 );
     blueColor.push_back ( 0x00000328 );
     blueColor.push_back ( 0x0000073F );
@@ -73,7 +71,6 @@ void Color::InitBlueColor ()
 
 void Color::InitRandomColor ()
 {
-    // Random Color Gradients
     unsigned int color = 0x00000000;
     for ( int i = 0; i < GRADIENT_RANGE; ++i )
     {

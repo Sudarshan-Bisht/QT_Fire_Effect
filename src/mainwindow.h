@@ -4,13 +4,12 @@
 #include <QMainWindow>
 #include "../build/ui_mainwindow.h"
 #include "color.h"
+#include "intensity.h"
+#include "openCV.h"
 
 namespace Ui {
 class MainWindow;
 }
-
-constexpr int WIDTH = 600;
-constexpr int HEIGHT = 200;
 
 class MainWindow : public QMainWindow
 {
@@ -31,28 +30,24 @@ private slots:
     void openCVNoEffect ();
     void openCVEffect1 ();
     void openCVEffect2 ();
-    void UpdateUI ();
+    void UpdateView ();
 
 private:
     Ui::MainWindow *ui;
     QGraphicsScene *graphicsScene;
     QImage image;
 
-    Color *colorInfo;
-   
+    Intensity *intensityInfo;
+    
+    OpenCV *openCV;
+
     int colorSelected;
     int intensitySelected;
     int intensityRange;
-    int intensityValues[WIDTH][HEIGHT];
-    std::map<int, int> intensityToColor;
-
     int windDirection;
 
-    void InitUI ();
-    void InitIntensity ();
+    void InitView ();
     void StartTimer ();
-    void SetBaseIntensityValues ();
-    int GetIntensityValue ( int row, int col );
  };
 
 #endif // MAINWINDOW_H

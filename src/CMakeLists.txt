@@ -28,12 +28,16 @@ set(project_ui
 
 set(project_headers
 	mainwindow.h
-	color.h)
+	color.h
+	intensity.h
+	openCV.h)
 
 set(project_sources 
 	main.cpp
 	mainwindow.cpp
-	color.cpp)
+	color.cpp
+	intensity.cpp
+	openCV.cpp)
 
 qt5_wrap_ui(project_headers_wrapper ${project_ui})
 

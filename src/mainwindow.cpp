@@ -1,13 +1,10 @@
 #include "mainwindow.h"
 #include "color.h"
+#include "intensity.h"
+#include "openCV.h"
 #include "../build/ui_mainwindow.h"
 #include <QTimer>
-#include <opencv2/core/core.hpp>
-#include <opencv2/highgui/highgui.hpp>
 #include <iostream>
-
-
-enum WIND_DIRECTION { NO_WIND, LEFT, RIGHT };
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -15,23 +12,35 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    InitUI ();
-
-    colorInfo = new Color ();
+    InitView ();
 
     colorSelected = COLOR_THEME::RED;
-
     intensitySelected = GRAD_TO_INTENSITY;
     intensityRange = INTENSITY_RANGE;
-
     windDirection = WIND_DIRECTION::NO_WIND;
 
-    InitIntensity ();
+    intensityInfo = new Intensity ( colorSelected, intensitySelected, intensityRange, windDirection );
     
+    openCV = new OpenCV ();
+
     StartTimer ();
 }
 
-void MainWindow::InitUI ()
+MainWindow::~MainWindow ()
+{
+    delete ui;
+
+    delete graphicsScene;
+
+    delete intensityInfo;
+
+    delete openCV;
+}
+
+
+#pragma region View
+
+void MainWindow::InitView ()
 {
     graphicsScene = new QGraphicsScene ( this );
 
@@ -40,152 +49,62 @@ void MainWindow::InitUI ()
     image = QImage ( WIDTH, HEIGHT, QImage::Format_RGB32 );
 }
 
-void MainWindow::InitIntensity ()
+void MainWindow::UpdateView ()
 {
-    for ( int i = 0; i < intensityRange; i++ )
+    intensityInfo->SetBaseIntensityValues ();
+
+    // Set pixel value
+    for ( int row = WIDTH - 1; row >= 0; --row )
     {
-        if ( colorSelected == COLOR_THEME::RANDOM )
+        for ( int col = HEIGHT - 1; col >= 0; --col )
         {
-            intensityToColor[i] = colorInfo->GetRandomColor ( i / intensitySelected );
-        }
-        else if ( colorSelected == COLOR_THEME::BLUE )
-        {
-            intensityToColor[i] = colorInfo->GetBlueColor ( i / intensitySelected );
-        }
-        else
-        {
-            intensityToColor[i] = colorInfo->GetRedColor ( i / intensitySelected );
+            int intensity = intensityInfo->GetIntensityValuePerPixel ( row, col );
+
+            int r = intensityInfo->GetRChannel ( intensity );
+            int g = intensityInfo->GetGChannel ( intensity );
+            int b = intensityInfo->GetBChannel ( intensity );
+
+            image.setPixel ( row, col, qRgb ( r, g, b ) );
         }
     }
+
+    graphicsScene->addPixmap ( QPixmap::fromImage ( image ) );
 }
+
+#pragma endregion
+
 
 void MainWindow::StartTimer ()
 {
     QTimer *timer = new QTimer ( this );
 
-    connect ( timer, SIGNAL ( timeout () ), this, SLOT ( UpdateUI () ) );
+    connect ( timer, SIGNAL ( timeout () ), this, SLOT ( UpdateView () ) );
 
     timer->start ();
 }
 
-void MainWindow::UpdateUI ()
-{
-    SetBaseIntensityValues ();
 
-    // Set pixel value
-    for ( int row = WIDTH - 1;  row >= 0; --row )
-    {
-        for ( int col = HEIGHT - 1; col >= 0; --col )
-        {
-            int intensity = GetIntensityValue ( row, col );
-
-            int r = ( intensityToColor[intensity] >> 16 ) & ( 0x0000FF );
-            int g = ( intensityToColor[intensity] >> 8 ) & ( 0x000000FF );
-            int b = ( intensityToColor[intensity] ) & ( 0x000000FF );
-   
-            image.setPixel ( row, col, qRgb ( r, g, b ) );
-        }
-    }
-
-    graphicsScene->addPixmap (  QPixmap::fromImage (image ));
-}
-
-void MainWindow::SetBaseIntensityValues ()
-{
-    // Initialize last row intensity values. Later used to calculate rest of the intensity valyes.
-    for ( int row = WIDTH - 1; row >= 0; --row )
-    {
-        for ( int col = HEIGHT - 1; col >= 0; --col )
-        {
-            if ( col == ( HEIGHT - 1 ) ) // Last row intensity values are hardcoded.
-            {
-                if ( windDirection == WIND_DIRECTION::LEFT )
-                {
-                    if ( row < WIDTH / 3 )
-                    {
-                        intensityValues[row][col] = ( std::rand () % ( intensityRange/2 ) );
-                    }
-                    else if ( ( row >= WIDTH / 3) && ( row <= ( WIDTH * 2 ) / 3 ))
-                    {
-                        intensityValues[row][col] = ( std::rand () % (intensityRange * 2 /3) );
-                    }
-                    else
-                    {
-                        intensityValues[row][col] = ( std::rand () % intensityRange );
-                    }
-                }
-                else if ( windDirection == WIND_DIRECTION::RIGHT )
-                {
-                    if ( row < WIDTH / 3 )
-                    {
-                        intensityValues[row][col] = ( std::rand () % ( intensityRange ) );
-                    }
-                    else if ( ( row >= WIDTH / 3 ) && ( row <= ( WIDTH * 2 ) / 3 ) )
-                    {
-                        intensityValues[row][col] = ( std::rand () % ( intensityRange * 2 / 3 ) );
-                    }
-                    else
-                    {
-                        intensityValues[row][col] = ( std::rand () % ( intensityRange / 2 ) );
-                    }
-                }
-                else
-                {
-                    intensityValues[row][col] = ( std::rand () % intensityRange );
-                }
-            }
-        }
-    }
-}
-
-int MainWindow::GetIntensityValue (int i, int j)
-{
-    int retval = 0;
-
-    if ( j == ( HEIGHT - 1 ) )
-    {
-        retval = intensityValues[i][j];
-    }
-    else
-    {
-        if ( i == ( WIDTH - 1 ) )
-        {
-            retval = ( ( intensityValues[i][j + 1] + intensityValues[i - 1][j + 1] ) / 3 ) - 1;
-        }
-        else if ( i == 0 )
-        {
-            retval = ( ( intensityValues[i][j + 1] + intensityValues[i + 1][j + 1] ) / 3 ) - 1;
-        }
-        else
-        {
-            retval = ( ( intensityValues[i][j + 1] + intensityValues[i + 1][j + 1] + intensityValues[i - 1][j + 1] ) / 3 ) - 1;
-        }
-    }
-
-    intensityValues[i][j] = retval;
-
-    return retval;
-}
+#pragma region SLOTS
 
 void MainWindow::redClicked ()
 {
     colorSelected = COLOR_THEME::RED;
 
-    InitIntensity ();
+    intensityInfo->UpdateColor ( colorSelected );
 }
 
 void MainWindow::blueClicked ()
 {
     colorSelected = COLOR_THEME::BLUE;
 
-    InitIntensity ();
+    intensityInfo->UpdateColor ( colorSelected );
 }
 
 void MainWindow::randomClicked ()
 {
     colorSelected = COLOR_THEME::RANDOM;
 
-    InitIntensity ();
+    intensityInfo->UpdateColor ( colorSelected );
 }
 
 void MainWindow::sliderMoved ( int value )
@@ -194,54 +113,39 @@ void MainWindow::sliderMoved ( int value )
 
     intensityRange = intensitySelected * GRADIENT_RANGE;
 
-    InitIntensity ();
-}
-
-void MainWindow::openCVNoEffect ()
-{
-
-}
-
-
-void MainWindow::openCVEffect1 ()
-{
-    cv::Mat image;
-    image = cv::imread ( "test.jpeg", CV_LOAD_IMAGE_COLOR );   // Read the file
-
-    if ( image.data != nullptr)
-    {
-        cv::namedWindow ( "Display window", cv::WINDOW_AUTOSIZE );// Create a window for display.
-        imshow ( "Display window", image );                   // Show our image inside it.
-
-        cv::waitKey ( 0 );
-    }
-}
-
-void MainWindow::openCVEffect2 ()
-{
-
+    intensityInfo->UpdateIntensity ( intensitySelected, intensityRange );
 }
 
 void MainWindow::noWind ()
 {
     windDirection = WIND_DIRECTION::NO_WIND;
+
+    intensityInfo->UpdateWindDirection ( windDirection );
 }
 
 void MainWindow::leftWind ()
 {
     windDirection = WIND_DIRECTION::LEFT;
+    intensityInfo->UpdateWindDirection ( windDirection );
 }
 
 void MainWindow::rightWind ()
 {
     windDirection = WIND_DIRECTION::RIGHT;
+    intensityInfo->UpdateWindDirection ( windDirection );
 }
 
-MainWindow::~MainWindow()
+void MainWindow::openCVNoEffect ()
 {
-    delete graphicsScene;
-
-    delete ui;
-
-    delete colorInfo;
 }
+
+void MainWindow::openCVEffect1 ()
+{
+    openCV->Effect1 ();
+}
+
+void MainWindow::openCVEffect2 ()
+{
+}
+
+#pragma endregion
