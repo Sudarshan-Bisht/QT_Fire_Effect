@@ -1,6 +1,7 @@
 # QT_Fire_Effect
 
 How to run the app;
+
 Preconditions:
 1. Windows 10 computer 
 
