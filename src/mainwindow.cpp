@@ -5,6 +5,9 @@
 #include "../build/ui_mainwindow.h"
 #include <QTimer>
 #include <iostream>
+#include <QPainter>   
+
+constexpr int TIMEOUT = 50; //ms
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -29,10 +32,13 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow ()
 {
+    timer->stop ();
+
     delete ui;
     delete graphicsScene;
     delete intensityInfo;
     delete openCV;
+    delete timer;
 }
 
 
@@ -49,12 +55,11 @@ void MainWindow::UpdateView ()
 {
     intensityInfo->SetBaseIntensityValues ();
 
-    // Set pixel value
     for ( int row = WIDTH - 1; row >= 0; --row )
     {
         for ( int col = HEIGHT - 1; col >= 0; --col )
         {
-            int intensity = intensityInfo->GetIntensityValuePerPixel ( row, col );
+            int intensity = intensityInfo->GetIntensityValuePerPixel ( row, col);
 
             int r = intensityInfo->GetRChannel ( intensity );
             int g = intensityInfo->GetGChannel ( intensity );
@@ -66,6 +71,7 @@ void MainWindow::UpdateView ()
 
     openCV->CheckEffect ( image );
 
+    graphicsScene->clear ();
     graphicsScene->addPixmap ( QPixmap::fromImage ( image ) );
 }
 
@@ -74,9 +80,9 @@ void MainWindow::UpdateView ()
 
 void MainWindow::StartTimer ()
 {
-    QTimer *timer = new QTimer ( this );
+    timer = new QTimer ( this );
     connect ( timer, SIGNAL ( timeout () ), this, SLOT ( UpdateView () ) );
-    timer->start ();
+    timer->start (TIMEOUT);
 }
 
 
@@ -131,9 +137,9 @@ void MainWindow::openCVNoEffect ()
     openCV->UpdateEffect ( openCVEffect );
 }
 
-void MainWindow::openCVGrayscale ()
+void MainWindow::openCVBlur ()
 {
-    openCVEffect = OPENEV_EFFECT::GRAYSCALE;
+    openCVEffect = OPENEV_EFFECT::BLUR;
     openCV->UpdateEffect ( openCVEffect );
 }
 

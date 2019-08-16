@@ -3,7 +3,7 @@
 
 #include <QImage>
 
-enum OPENEV_EFFECT { NO_EFFECT, GRAYSCALE, FLIP };
+enum OPENEV_EFFECT { NO_EFFECT, BLUR, FLIP };
 
 class OpenCV 
 {
@@ -19,7 +19,7 @@ private:
     int m_openCVEffect;
 
     int rotateStep;
-    void Grayscale ( QImage& image );
+    void Blur ( QImage& image );
     void Flip ( QImage& image );
     void NoEffect ( QImage& image );
 

@@ -4,13 +4,13 @@
 #include<vector>
 
 constexpr int GRADIENT_RANGE = 27;
-constexpr int GRAD_TO_INTENSITY = 10;
+constexpr int GRAD_TO_INTENSITY = 5;
 constexpr int INTENSITY_RANGE = GRAD_TO_INTENSITY * GRADIENT_RANGE;
 
 constexpr int COLOR_FACTOR = ( 0x00FFFFFF / ( INTENSITY_RANGE - 1 ) );
 
-constexpr int WIDTH = 700;
-constexpr int HEIGHT = 200;
+constexpr int WIDTH = 200;
+constexpr int HEIGHT = 80;
 
 enum COLOR_THEME { RED, BLUE, RANDOM };
 

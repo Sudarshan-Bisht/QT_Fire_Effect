@@ -18,7 +18,7 @@
    </font>
   </property>
   <property name="windowTitle">
-   <string extracomment="0"/>
+   <string extracomment="0">Fire App</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QPushButton" name="pushButton">
@@ -44,11 +44,23 @@
    <widget class="QGraphicsView" name="graphicsView">
     <property name="geometry">
      <rect>
-      <x>40</x>
-      <y>80</y>
-      <width>711</width>
+      <x>70</x>
+      <y>100</y>
+      <width>661</width>
       <height>211</height>
      </rect>
+    </property>
+    <property name="interactive">
+     <bool>true</bool>
+    </property>
+    <property name="renderHints">
+     <set>QPainter::Antialiasing</set>
+    </property>
+    <property name="cacheMode">
+     <set>QGraphicsView::CacheNone</set>
+    </property>
+    <property name="viewportUpdateMode">
+     <enum>QGraphicsView::MinimalViewportUpdate</enum>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_2">
@@ -94,7 +106,7 @@
    <widget class="QSlider" name="verticalSlider">
     <property name="geometry">
      <rect>
-      <x>830</x>
+      <x>800</x>
       <y>90</y>
       <width>20</width>
       <height>201</height>
@@ -104,13 +116,13 @@
      <number>1</number>
     </property>
     <property name="maximum">
-     <number>10</number>
+     <number>5</number>
     </property>
     <property name="pageStep">
      <number>1</number>
     </property>
     <property name="value">
-     <number>10</number>
+     <number>5</number>
     </property>
     <property name="orientation">
      <enum>Qt::Vertical</enum>
@@ -119,7 +131,7 @@
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>770</x>
+      <x>740</x>
       <y>30</y>
       <width>141</width>
       <height>51</height>
@@ -143,7 +155,7 @@
     <property name="geometry">
      <rect>
       <x>70</x>
-      <y>360</y>
+      <y>350</y>
       <width>121</width>
       <height>21</height>
      </rect>
@@ -158,9 +170,9 @@
    <widget class="QLabel" name="label_3">
     <property name="geometry">
      <rect>
-      <x>310</x>
-      <y>360</y>
-      <width>181</width>
+      <x>290</x>
+      <y>350</y>
+      <width>231</width>
       <height>21</height>
      </rect>
     </property>
@@ -255,7 +267,7 @@
     <property name="geometry">
      <rect>
       <x>580</x>
-      <y>360</y>
+      <y>350</y>
       <width>181</width>
       <height>21</height>
      </rect>
@@ -304,7 +316,7 @@
      </font>
     </property>
     <property name="text">
-     <string>Grayscale</string>
+     <string>Blur</string>
     </property>
    </widget>
   </widget>
@@ -367,7 +379,7 @@
    <slot>sliderMoved(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>843</x>
+     <x>813</x>
      <y>131</y>
     </hint>
     <hint type="destinationlabel">
@@ -428,11 +440,11 @@
    <sender>pushButton_9</sender>
    <signal>clicked()</signal>
    <receiver>MainWindow</receiver>
-   <slot>openCVGrayscale()</slot>
+   <slot>openCVBlur()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>721</x>
-     <y>485</y>
+     <y>545</y>
     </hint>
     <hint type="destinationlabel">
      <x>756</x>
@@ -448,7 +460,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>693</x>
-     <y>545</y>
+     <y>485</y>
     </hint>
     <hint type="destinationlabel">
      <x>749</x>
@@ -486,5 +498,6 @@
   <slot>openCVNoEffect()</slot>
   <slot>openCVGrayscale()</slot>
   <slot>openCVFlip()</slot>
+  <slot>openCVBlur()</slot>
  </slots>
 </ui>

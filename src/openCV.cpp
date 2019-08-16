@@ -11,9 +11,9 @@ OpenCV::OpenCV ()
 
 void OpenCV::CheckEffect (QImage& image)
 {
-    if ( m_openCVEffect == OPENEV_EFFECT::GRAYSCALE )
+    if ( m_openCVEffect == OPENEV_EFFECT::BLUR )
     {
-        Grayscale ( image );
+        Blur ( image );
     }
     else if ( m_openCVEffect == OPENEV_EFFECT::FLIP )
     {
@@ -32,11 +32,13 @@ void OpenCV::UpdateEffect ( int effect )
     rotateStep = 0;
 }
 
-void OpenCV::Grayscale ( QImage& src )
+void OpenCV::Blur ( QImage& src )
 {
     cv::Mat res ( src.height (), src.width (), CV_8UC4, ( uchar* ) src.bits (), src.bytesPerLine () );
       
-    src = QImage ( ( uchar* ) res.data, res.cols, res.rows, QImage::Format_Grayscale8 );
+    cv::blur ( res, res, cv::Size ( 10, 10 ) );
+
+    src = QImage ( ( uchar* ) res.data, res.cols, res.rows, QImage::Format_ARGB32 );
 }
 
 void OpenCV::Flip ( QImage& src )

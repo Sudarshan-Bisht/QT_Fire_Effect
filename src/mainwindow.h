@@ -28,7 +28,7 @@ private slots:
     void rightWind ();
     void sliderMoved ( int value );
     void openCVNoEffect ();
-    void openCVGrayscale ();
+    void openCVBlur ();
     void openCVFlip ();
     void UpdateView ();
 
@@ -39,6 +39,8 @@ private:
 
     Intensity *intensityInfo;
     OpenCV *openCV;
+
+    QTimer *timer;
 
     int colorSelected;
     int intensitySelected;
