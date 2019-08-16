@@ -5,7 +5,6 @@
 #include "../build/ui_mainwindow.h"
 #include <QTimer>
 #include <iostream>
-#include <QPainter>   
 
 constexpr int TIMEOUT = 50; //ms
 
