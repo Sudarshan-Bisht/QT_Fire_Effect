@@ -2,7 +2,8 @@
 
 How to run the app;
 Preconditions:
-1. Windows 10 computer
+1. Windows 10 computer 
+
 Steps:
 1.  Download the repository.
 2.  Go tto Release directory.
