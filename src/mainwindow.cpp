@@ -6,7 +6,7 @@
 #include <QTimer>
 #include <iostream>
 
-constexpr int TIMEOUT = 50; //ms
+constexpr int TIMEOUT = 100; //ms
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -58,7 +58,7 @@ void MainWindow::UpdateView ()
     {
         for ( int col = HEIGHT - 1; col >= 0; --col )
         {
-            int intensity = intensityInfo->GetIntensityValuePerPixel ( row, col);
+            int intensity = intensityInfo->GetIntensityValuePerPixel ( row, col );
 
             int r = intensityInfo->GetRChannel ( intensity );
             int g = intensityInfo->GetGChannel ( intensity );
@@ -70,7 +70,13 @@ void MainWindow::UpdateView ()
 
     openCV->CheckEffect ( image );
 
-    graphicsScene->clear ();
+    // Delete all previously added items e.g. pixmap from the scene.
+    for each ( auto item in graphicsScene->items () )
+    {
+        graphicsScene->removeItem ( item );
+        delete item;
+    }
+
     graphicsScene->addPixmap ( QPixmap::fromImage ( image ) );
 }
 
