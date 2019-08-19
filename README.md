@@ -1,5 +1,7 @@
 # QT_Fire_Effect
 
+Its a QT based application which shows fire graphics (with few controls) along with couple of OpenCV effects.
+
 How to run the app;
 
 Preconditions:
