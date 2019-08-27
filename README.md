@@ -12,3 +12,5 @@ Steps:
 2.  Go tto Release directory.
 3.  Unzip opencv_world343.zip to the same location
 4.  Double click on Fire_Demo.exe
+
+In case if you are only interested in the functionality of the app, then please have a look at screenshots directory.
