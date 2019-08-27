@@ -2,7 +2,7 @@
 #include "color.h"
 #include "intensity.h"
 #include "openCV.h"
-#include "../build/ui_mainwindow.h"
+#include "ui_mainwindow.h"
 #include <QTimer>
 #include <iostream>
 
